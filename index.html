@@ -5,60 +5,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Singapore Population Density Map</title>
   <style>
+    /* Global Styles */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Roboto', Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f0f0f0;
+      background-color: #f9f9f9;
+      color: #444;
     }
 
     h1 {
       text-align: center;
       margin: 20px 0;
-      color: #333;
+      font-size: 2em;
+      color: #222;
     }
 
     #map-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      margin: 20px auto;
+      max-width: 1200px;
     }
 
     svg {
-      border: 1px solid #ccc;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
+    /* Tooltip Styles */
     #info {
       position: absolute;
-      background-color: white;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: #ffffff;
+      padding: 12px 15px;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      font-size: 14px;
+      line-height: 1.5;
       display: none;
+      z-index: 10;
     }
 
+    /* Legend Styles */
     #legend {
       position: absolute;
-      bottom: 20px;
-      left: 20px;
-      background: white;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      font-size: 12px;
+      bottom: 30px;
+      left: 30px;
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      font-size: 14px;
+      line-height: 1.6;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+    }
+
+    .legend-item:last-child {
+      margin-bottom: 0;
     }
 
     .legend-color {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       margin-right: 10px;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -67,16 +84,32 @@
 <h1>Singapore Population Density Map</h1>
 
 <div id="map-container">
-  <svg width="1000" height="700" viewBox="0 0 1000 700"></svg>
+  <svg width="1000" height="700" viewBox="0 0 1000 700" aria-label="Singapore Population Density Map"></svg>
 </div>
 
-<div id="info"></div>
-<div id="legend">
-  <div class="legend-item"><div class="legend-color" style="background-color: #d73027;"></div>High Population</div>
-  <div class="legend-item"><div class="legend-color" style="background-color: #f46d43;"></div>Medium-High Population</div>
-  <div class="legend-item"><div class="legend-color" style="background-color: #fee08b;"></div>Medium Population</div>
-  <div class="legend-item"><div class="legend-color" style="background-color: #d9ef8b;"></div>Low Population</div>
-  <div class="legend-item"><div class="legend-color" style="background-color: #1a9850;"></div>Very Low Population</div>
+<div id="info" aria-live="polite"></div>
+
+<div id="legend" aria-label="Population Density Legend">
+  <div class="legend-item">
+    <div class="legend-color" style="background-color: #d73027;"></div>
+    <span>High Population</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-color" style="background-color: #f46d43;"></div>
+    <span>Medium-High Population</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-color" style="background-color: #fee08b;"></div>
+    <span>Medium Population</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-color" style="background-color: #d9ef8b;"></div>
+    <span>Low Population</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-color" style="background-color: #1a9850;"></div>
+    <span>Very Low Population</span>
+  </div>
 </div>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -110,14 +143,15 @@
       .enter()
       .append("path")
       .attr("d", path)
-      .attr("stroke", "#333")
+      .attr("stroke", "#555")
+      .attr("stroke-width", 0.5)
       .attr("fill", d => colorScale(d.properties.population))
       .on("mouseover", (event, d) => {
         d3.select("#info")
           .style("display", "block")
           .html(`<strong>${d.properties.Name}</strong><br>Population: ${d.properties.population}`)
-          .style("left", `${event.pageX + 10}px`)
-          .style("top", `${event.pageY + 10}px`);
+          .style("left", `${event.pageX + 15}px`)
+          .style("top", `${event.pageY + 15}px`);
       })
       .on("mouseout", () => {
         d3.select("#info").style("display", "none");
