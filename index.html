@@ -17,17 +17,9 @@
     h1 {
       text-align: center;
       margin: 20px 0;
-      font-size: 2.5em;
+      font-size: 1.8em; /* Reduced font size */
       color: #333333;
       letter-spacing: 0.5px;
-    }
-
-    h1 span {
-      font-size: 1.2em;
-      color: #666;
-      display: block;
-      margin-top: 10px;
-      font-weight: 400;
     }
 
     #map-container {
@@ -39,9 +31,7 @@
     }
 
     svg {
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border: none; /* Removed the border around the SVG */
     }
 
     /* Tooltip Styles */
@@ -90,9 +80,7 @@
 </head>
 <body>
 
-<h1>Population Density Across Singapore
-  <span>Explore the regional distribution of population density</span>
-</h1>
+<h1>Singapore Population Density Map</h1>
 
 <div id="map-container">
   <svg width="1000" height="700" viewBox="0 0 1000 700" aria-label="Singapore Population Density Map"></svg>
